@@ -1,33 +1,33 @@
 class BrowserHistory(homepage: String) {
-    private var index= 0
+
+    private var currentIndex= 0
     private var history = mutableListOf<String>(homepage)
 
+    private val currentPage: String = homepage
+
     fun visit(url: String) {
-                history = history.filterIndexed { ind, s -> ind<=index  }. 
-toMutableList()
+        val diff = history.size-1 - currentIndex
+        history = history.dropLast(diff).toMutableList()
         history.add(url)
-        index++
+        currentIndex++
     }
 
     fun back(steps: Int): String {
-        if(index - steps>=0){
-            index-=steps
-            return history[index]
-        }
-       else {
-           index =0
-           return history[0]
-        }
+        val diff = currentIndex - steps
+        if(diff>=0){
+            currentIndex = diff
+        } else currentIndex = 0
+        return history[currentIndex]
     }
 
     fun forward(steps: Int): String {
-        if(index+steps<=history.size-1){
-            index+=steps
-            return history[index]
-        }else{
-            index=history.size-1
-            return history[history.size-1]
-        }
+        val newCurrentIndex = currentIndex+steps
+        if(newCurrentIndex<=history.size-1){
+            currentIndex= newCurrentIndex
+        }else currentIndex=history.size-1
+        return history[currentIndex]
     }
 
 }
+
+
