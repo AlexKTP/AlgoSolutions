@@ -7,6 +7,5 @@ class Solution {
                  c != s.toCharArray()[s.length-1-index]) result = false
             }  
         return result
-        
     }
 }
